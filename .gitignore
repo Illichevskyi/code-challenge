@@ -1,1 +1,7 @@
+/.idea/
+/target
+
 *.swp
+*.iml
+*.class
+.DS_Store

@@ -1,0 +1,236 @@
+{
+	"variables": [],
+	"info": {
+		"name": "hsbc-1",
+		"_postman_id": "19547c54-1061-6157-ca36-ed9aa69767ca",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "message",
+			"description": "",
+			"item": []
+		},
+		{
+			"name": "add post for new user",
+			"request": {
+				"url": "http://localhost:8080/post",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"userName\": \"name1\", \"text\":\"1\"}"
+				},
+				"description": "A user should be able to post a 140 character post.\nDon't care about registering users: a user is created as soon as they post their first post."
+			},
+			"response": []
+		},
+		{
+			"name": "add post to existing user",
+			"request": {
+				"url": "http://localhost:8080/post",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"userId\":1, \"userName\": \"name1\", \"text\":\"1-2\"}"
+				},
+				"description": "A user should be able to post a 140 character post. Don't care about registering users: a user is created as soon as they post their first post."
+			},
+			"response": []
+		},
+		{
+			"name": "get wall for user",
+			"request": {
+				"url": "http://localhost:8080/post/wall/2",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "A user should be able to see a list of the posts they've posted, in reverse chronological order.\n\nThis include user's original posts and reposts of other users' posts."
+			},
+			"response": []
+		},
+		{
+			"name": "delete post of user",
+			"request": {
+				"url": "http://localhost:8080/post/delete/4",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "follow user",
+			"request": {
+				"url": "http://localhost:8080/user/follow",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"followerId\": 2, \"followeeId\": 1}"
+				},
+				"description": "A user should be able to follow another user. Following doesn't have to be reciprocal: Alice can follow Bob without Bob having to follow Alice."
+			},
+			"response": []
+		},
+		{
+			"name": "get timeline",
+			"request": {
+				"url": "http://localhost:8080/post/timeline/2",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "A user should be able to see a list of the posts posted by all the people they follow, in reverse chronological order.\n\nOriginal posts and reposts of current user are not displayed here. \n\nThey are displayed in user's wall, which containes user's own original posts and user's reposts from other users' posts."
+			},
+			"response": []
+		},
+		{
+			"name": "unfollow user",
+			"request": {
+				"url": "http://localhost:8080/user/unfollow",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"followerId\": 2, \"followeeId\": 1}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get follower list",
+			"request": {
+				"url": "http://localhost:8080/user/followers/1",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "A list of users whom follows current user.\n\nFor example:\ncurrent user - Linus Torvalds.\n\nlist of users - developers and linux users who follow Linus Torvalds' posts."
+			},
+			"response": []
+		},
+		{
+			"name": "get followees list",
+			"request": {
+				"url": "http://localhost:8080/user/followees/2",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "A list of users who follow current user.\n\nFor example: current user - a java developer;\n\nlist of users - people whose posts he follows, like Linus Torvalds, Josh Long etc."
+			},
+			"response": []
+		},
+		{
+			"name": "like post",
+			"request": {
+				"url": "http://localhost:8080/post/like",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"likedUserId\":2, \"postId\":1}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "unlike post",
+			"request": {
+				"url": "http://localhost:8080/post/unlike",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"likedUserId\":2, \"postId\":1}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "create repost",
+			"request": {
+				"url": "http://localhost:8080/post/repost",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"userId\": 2, \"postId\":1}"
+				},
+				"description": "In order to see the repost, use a timeline rest end-point.\n\nBecause user's reposts together with user's original posts are displayed in wall.\n\nIn user's timeline, you will not be able to see user's reposts together with user's original posts."
+			},
+			"response": []
+		},
+		{
+			"name": "delete repost",
+			"request": {
+				"url": "http://localhost:8080/post/delete/6",
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"description": "This is exactly as delete post.\n\nIt is created for the sack of convinience in post requests."
+			},
+			"response": []
+		}
+	]
+}
