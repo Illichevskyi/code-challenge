@@ -37,7 +37,7 @@ public class UserControllerTest {
 
     private static MediaType jsonContentType;
 
-    private static String followUserContent;
+    private static String subscriptionContent;
 
     private static String userURL = "/user";
     private static String followURL = userURL + "/follow";
@@ -51,7 +51,7 @@ public class UserControllerTest {
                 MediaType.APPLICATION_JSON.getSubtype(),
                 Charset.forName("utf8"));
 
-        followUserContent = "{\"followerId\":2,\"followeeId\":1}";
+        subscriptionContent = "{\"followerId\":2,\"followeeId\":1}";
     }
 
 
@@ -65,7 +65,7 @@ public class UserControllerTest {
         doNothing().when(userService).followUser(any(Subscription.class));
 
         mockMvc.perform(post(followURL)
-                .content(followUserContent)
+                .content(subscriptionContent)
                 .contentType(jsonContentType))
                 .andExpect(status().isOk());
     }
@@ -75,7 +75,7 @@ public class UserControllerTest {
         doNothing().when(userService).unfollowUser(any(Subscription.class));
 
         mockMvc.perform(post(unfollowURL)
-                .content(followUserContent)
+                .content(subscriptionContent)
                 .contentType(jsonContentType))
                 .andExpect(status().isOk());
     }
@@ -85,7 +85,6 @@ public class UserControllerTest {
         when(userService.getFollowers(anyLong())).thenReturn(new HashSet<>());
 
         mockMvc.perform(get(followersURL)
-                .content(followUserContent)
                 .contentType(jsonContentType))
                 .andExpect(status().isOk());
     }
@@ -95,7 +94,6 @@ public class UserControllerTest {
         when(userService.getFollowees(anyLong())).thenReturn(new HashSet<>());
 
         mockMvc.perform(get(followeesURL)
-                .content(followUserContent)
                 .contentType(jsonContentType))
                 .andExpect(status().isOk());
     }

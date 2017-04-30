@@ -40,7 +40,10 @@ public class PostControllerTest {
 
     private static MediaType jsonContentType;
 
-    private static String followUserContent;
+    private static String userPostContentForNewUser;
+    private static String userPostContentForExistingUser;
+    private static String userRepostContent;
+    private static String likeContent;
 
     private static String postURL = "/post";
     private static String repostURL = postURL + "/repost";
@@ -55,8 +58,10 @@ public class PostControllerTest {
         jsonContentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
                 MediaType.APPLICATION_JSON.getSubtype(),
                 Charset.forName("utf8"));
-
-        followUserContent = "{\"followerId\":2,\"followeeId\":1}";
+        userPostContentForNewUser = "{\"userName\": \"name1\", \"text\":\"1\"}";
+        userPostContentForExistingUser = "{\"userId\":1, \"userName\": \"name1\", \"text\":\"1-2\"}";
+        userRepostContent = "{\"userId\": 2, \"postId\":1}";
+        likeContent = "{\"likedUserId\":2, \"postId\":1}";
     }
 
 
@@ -66,11 +71,21 @@ public class PostControllerTest {
     }
 
     @Test
-    public void testSavePost() throws Exception {
+    public void testSavePostForNewUser() throws Exception {
         doNothing().when(postService).savePost(any(UserPost.class));
 
         mockMvc.perform(post(postURL)
-                .content(followUserContent)
+                .content(userPostContentForNewUser)
+                .contentType(jsonContentType))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testSavePostForExistingUser() throws Exception {
+        doNothing().when(postService).savePost(any(UserPost.class));
+
+        mockMvc.perform(post(postURL)
+                .content(userPostContentForExistingUser)
                 .contentType(jsonContentType))
                 .andExpect(status().isOk());
     }
@@ -80,7 +95,7 @@ public class PostControllerTest {
         doNothing().when(postService).saveRepost(any(UserRepost.class));
 
         mockMvc.perform(post(repostURL)
-                .content(followUserContent)
+                .content(userRepostContent)
                 .contentType(jsonContentType))
                 .andExpect(status().isOk());
     }
@@ -90,7 +105,6 @@ public class PostControllerTest {
         doNothing().when(postService).deletePost(anyLong());
 
         mockMvc.perform(delete(deleteURL)
-                .content(followUserContent)
                 .contentType(jsonContentType))
                 .andExpect(status().isOk());
     }
@@ -100,7 +114,6 @@ public class PostControllerTest {
         when(postService.getWall(anyLong())).thenReturn(new ArrayList<>());
 
         mockMvc.perform(get(wallURL)
-                .content(followUserContent)
                 .contentType(jsonContentType))
                 .andExpect(status().isOk());
     }
@@ -110,7 +123,6 @@ public class PostControllerTest {
         when(postService.getTimeline(anyLong())).thenReturn(new ArrayList<>());
 
         mockMvc.perform(get(timelineURL)
-                .content(followUserContent)
                 .contentType(jsonContentType))
                 .andExpect(status().isOk());
     }
@@ -120,7 +132,7 @@ public class PostControllerTest {
         doNothing().when(postService).likePost(any(Like.class));
 
         mockMvc.perform(post(likePostURL)
-                .content(followUserContent)
+                .content(likeContent)
                 .contentType(jsonContentType))
                 .andExpect(status().isOk());
     }
@@ -130,7 +142,7 @@ public class PostControllerTest {
         doNothing().when(postService).unlikePost(any(Like.class));
 
         mockMvc.perform(post(unlikePostURL)
-                .content(followUserContent)
+                .content(likeContent)
                 .contentType(jsonContentType))
                 .andExpect(status().isOk());
     }
